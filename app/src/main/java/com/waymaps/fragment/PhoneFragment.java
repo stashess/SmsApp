@@ -4,16 +4,15 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.waymaps.app.R;
 import com.waymaps.contract.PhoneContract;
-import com.waymaps.data.AppRepository;
 import com.waymaps.data.model.PhoneNumber;
 import com.waymaps.presenter.PhonePresenter;
 import com.waymaps.ui.adapter.MyPhoneRecyclerViewAdapter;
@@ -23,6 +22,7 @@ import com.waymaps.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -89,6 +89,10 @@ public class PhoneFragment extends AbstractFragment implements PhoneContract.Pho
 
     @Override
     public void showPhoneDialog(PhoneNumber phoneNumber) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this.getContext());
+        View view = getLayoutInflater().inflate(R.layout.phone_dialog,null);
+        ButterKnife.bind(this,view)
+
 
     }
 
