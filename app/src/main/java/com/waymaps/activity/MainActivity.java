@@ -17,7 +17,9 @@ import android.widget.Toast;
 
 import com.waymaps.MainApplication;
 import com.waymaps.app.R;
+import com.waymaps.data.model.Mail;
 import com.waymaps.fragment.AbstractFragment;
+import com.waymaps.fragment.MailFragment;
 import com.waymaps.fragment.MainFragment;
 import com.waymaps.fragment.PhoneFragment;
 
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity
                     return AbstractFragment.getNewInstance(MainFragment.class,data);
                 case AbstractFragment.FragmentName.SCREEN_PHONE:
                     return AbstractFragment.getNewInstance(PhoneFragment.class,data);
+                case AbstractFragment.FragmentName.SCREEN_MAIL:
+                    return AbstractFragment.getNewInstance(MailFragment.class,data);
                 default:
                     throw new RuntimeException("Unknown screen key!");
             }
@@ -132,9 +136,9 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        if (id == R.id.nav_mail) {
+            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_MAIL);
+        } else if (id == R.id.nav_phone) {
             MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_PHONE);
         } else if (id == R.id.nav_slideshow) {
 

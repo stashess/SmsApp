@@ -17,10 +17,6 @@ public interface PhoneContract {
     }
 
     public interface PhonePresenter {
-        void dropView();
-
-        void takeView(View view);
-
         void getAllPhones();
 
         void addNewPhone(PhoneNumber phoneNumber);

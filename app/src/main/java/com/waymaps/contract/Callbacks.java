@@ -1,5 +1,6 @@
 package com.waymaps.contract;
 
+import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
 
 import java.util.List;
@@ -30,4 +31,32 @@ public interface Callbacks {
             void onError();
         }
     }
+
+    interface Mails{
+        interface LoadMailsCallback {
+            void onMailsLoaded(List<Mail> mails);
+
+            void onDataNotAvailable();
+        }
+
+        interface EditMailCallback {
+            void onSuccess();
+
+            void onError();
+        }
+
+        interface AddMailCallback {
+            void onSuccess();
+
+            void onError();
+        }
+
+        interface DeleteMailCallback {
+            void onSuccess();
+
+            void onError();
+        }
+    }
+
+
 }

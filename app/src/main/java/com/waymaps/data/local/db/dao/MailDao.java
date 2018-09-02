@@ -7,24 +7,21 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.data.model.Mail;
 
 import java.util.List;
 
 @Dao
-public interface PhoneDao {
-
-    @Query("SELECT * FROM phone")
-    List<PhoneNumber> getPhones();
+public interface MailDao {
+    @Query("SELECT * FROM mail")
+    List<Mail> getMails();
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void bulkInsert(PhoneNumber... phoneNumbers);
+    void bulkInsert(Mail... mails);
 
-    @Query("DELETE FROM phone WHERE phoneNo like :phoneNo")
-    void deleteByPhoneNo(String phoneNo);
+    @Query("DELETE FROM mail WHERE mail like :mail")
+    void deleteByMail(String mail);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
-    void editPhone(PhoneNumber phoneNumber);
-
+    void editMail(Mail mail);
 }
-

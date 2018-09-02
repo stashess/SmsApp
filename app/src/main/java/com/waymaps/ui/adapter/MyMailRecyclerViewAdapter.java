@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.waymaps.app.R;
+import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
 
 import java.util.List;
@@ -14,19 +15,18 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+public class MyMailRecyclerViewAdapter extends RecyclerView.Adapter<MyMailRecyclerViewAdapter.ViewHolder>{
 
-public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecyclerViewAdapter.ViewHolder> {
+    private List<Mail> mValues;
 
-    private List<PhoneNumber> mValues;
-
-    public MyPhoneRecyclerViewAdapter(List<PhoneNumber> items) {
+    public MyMailRecyclerViewAdapter(List<Mail> items) {
         mValues = items;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_phone_item, parent, false);
+                .inflate(R.layout.fragment_mail_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -34,7 +34,7 @@ public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecy
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         //holder.mIdView.setText(mValues.get(position).getId());
-        holder.mContentView.setText(mValues.get(position).getPhoneNo());
+        holder.mContentView.setText(mValues.get(position).getMail());
     }
 
     @Override
@@ -45,13 +45,13 @@ public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecy
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
 
-        @BindView(R.id.item_number)
+        @BindView(R.id.mail_id)
         TextView mIdView;
 
-        @BindView(R.id.item_content)
+        @BindView(R.id.mail_mail)
         TextView mContentView;
 
-        public PhoneNumber mItem;
+        public Mail mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -65,7 +65,7 @@ public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecy
         }
     }
 
-    public List<PhoneNumber> getmValues() {
+    public List<Mail> getmValues() {
         return mValues;
     }
 }

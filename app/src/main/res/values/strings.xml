@@ -9,4 +9,14 @@
     <string name="main_fragment">MF</string>
     <string name="fragment_phone_name">Phone</string>
     <string name="phone">Phone</string>
+    <string name="button_save">Save</string>
+    <string name="toast_phoneNoDoesntMathc">Phone number doesn\'t match pattern</string>
+    <string name="menu_mail">Mails</string>
+    <string name="menu_phone">Phones</string>
+    <string name="fragment_mail_name">Mails</string>
+    <string name="mail">Mail</string>
+    <string name="password">Password</string>
+    <string name="toast_mail_empty">Mail can\'t be empty</string>
+    <string name="toast_pass_empty">Password can\'t be empty</string>
+    <string name="button_check_pass">Check password</string>
 </resources>

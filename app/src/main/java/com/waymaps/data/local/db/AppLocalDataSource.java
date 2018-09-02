@@ -3,6 +3,7 @@ package com.waymaps.data.local.db;
 import android.content.Context;
 
 import com.waymaps.contract.Callbacks;
+import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
 import com.waymaps.util.AppExecutors;
 
@@ -69,6 +70,12 @@ public class AppLocalDataSource {
             public void run() {
                 try {
                     mAppDatabase.phoneDao().bulkInsert(phoneNumber);
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess();
+                        }
+                    });
                 } catch (Exception e) {
                     mExecutors.mainThread().execute(new Runnable() {
                         @Override
@@ -77,12 +84,6 @@ public class AppLocalDataSource {
                         }
                     });
                 }
-                mExecutors.mainThread().execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        callback.onSuccess();
-                    }
-                });
             }
         };
         mExecutors.diskIO().execute(runnable);
@@ -138,6 +139,104 @@ public class AppLocalDataSource {
         };
         mExecutors.diskIO().execute(runnable);
     }
+
+    public void getAllMails(final Callbacks.Mails.LoadMailsCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Mail> mails = mAppDatabase.mailDao().getMails();
+
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!mails.isEmpty()) {
+                            callback.onMailsLoaded(mails);
+                        } else {
+                            callback.onDataNotAvailable();
+                        }
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+    public void addMail(final Callbacks.Mails.AddMailCallback callback, final Mail... mails) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.mailDao().bulkInsert(mails);
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess();
+                        }
+                    });
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+    public void updateMail(final Callbacks.Mails.EditMailCallback callback, final Mail mail){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.mailDao().editMail(mail);
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess();
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+
+    public void deleteMail(final Callbacks.Mails.DeleteMailCallback callback, final String mail){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.mailDao().deleteByMail(mail);
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess();
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
 
 
 }

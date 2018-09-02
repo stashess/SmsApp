@@ -104,6 +104,7 @@ public abstract class AbstractFragment extends Fragment {
     public interface FragmentName{
         String SCREEN_MAIN = "SCREEN_MAIN";
         String SCREEN_PHONE = "SCREEN_PHONE";
+        String SCREEN_MAIL = "SCREEN_MAIL";
     }
 
     public Object getData() {

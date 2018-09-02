@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -12,10 +11,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.waymaps.app.R;
-import com.waymaps.contract.PhoneContract;
-import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.contract.MailContract;
+import com.waymaps.data.model.Mail;
+import com.waymaps.dialog.AddMailDialog;
 import com.waymaps.dialog.AddPhoneDialog;
-import com.waymaps.presenter.PhonePresenter;
+import com.waymaps.presenter.MailPresenter;
+import com.waymaps.ui.adapter.MyMailRecyclerViewAdapter;
 import com.waymaps.ui.adapter.MyPhoneRecyclerViewAdapter;
 import com.waymaps.util.AppExecutors;
 import com.waymaps.util.InjectorUtils;
@@ -23,37 +24,36 @@ import com.waymaps.util.ItemClickSupport;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhoneFragment extends AbstractFragment implements PhoneContract.PhoneView {
+public class MailFragment extends AbstractFragment implements MailContract.MailView {
 
 
-    @BindView(R.id.phone_list)
+    @BindView(R.id.mail_list)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.phone_add)
-    FloatingActionButton addPhone;
+    @BindView(R.id.mail_add)
+    FloatingActionButton addMail;
 
+
+    private MailContract.MailPresenter mailPresenter;
 
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private List<PhoneNumber> phoneNumbers = new ArrayList<>();
+    private List<Mail> mails = new ArrayList<>();
 
-    private PhoneContract.PhonePresenter phonePresenter;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        View view = inflater.inflate(R.layout.fragment_phone, container, false);
-        ButterKnife.bind(this, view);
-        phonePresenter = new PhonePresenter(this,InjectorUtils.provideRepository(getContext()),AppExecutors.getInstance());
+        View view = inflater.inflate(R.layout.fragment_mail, container, false);
+        mailPresenter = new MailPresenter(this, InjectorUtils.provideRepository(getContext()), AppExecutors.getInstance());
+        ButterKnife.bind(this,view);
 
         mRecyclerView.setHasFixedSize(true);
-
         mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
@@ -62,8 +62,8 @@ public class PhoneFragment extends AbstractFragment implements PhoneContract.Pho
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
-                        PhoneNumber phoneNumber = ((MyPhoneRecyclerViewAdapter) recyclerView.getAdapter()).getmValues().get(position);
-                        showPhoneDialog(phoneNumber);
+                        Mail mail = ((MyMailRecyclerViewAdapter) recyclerView.getAdapter()).getmValues().get(position);
+                        showMailDialog(mail);
                     }
                 });
 
@@ -71,17 +71,17 @@ public class PhoneFragment extends AbstractFragment implements PhoneContract.Pho
                 .setOnItemLongClickListener(new ItemClickSupport.OnItemLongClickListener() {
                     @Override
                     public boolean onItemLongClicked(RecyclerView recyclerView, int position, View v) {
-                        PhoneNumber phoneNumber = ((MyPhoneRecyclerViewAdapter) recyclerView.getAdapter()).getmValues().remove(position);
-                        phonePresenter.deletePhone(phoneNumber);
+                        Mail mail = ((MyMailRecyclerViewAdapter) recyclerView.getAdapter()).getmValues().remove(position);
+                        mailPresenter.deleteMail(mail);
                         recyclerView.getAdapter().notifyItemRemoved(position);
                         return true;
                     }
                 });
 
-        addPhone.setOnClickListener(new View.OnClickListener() {
+        addMail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showPhoneDialog(null);
+                showMailDialog(null);
             }
         });
 
@@ -91,22 +91,23 @@ public class PhoneFragment extends AbstractFragment implements PhoneContract.Pho
     @Override
     public void onResume() {
         super.onResume();
-        phonePresenter.getAllPhones();
+        mailPresenter.getAllMails();
     }
 
     @Override
-    public void showPhones(List<PhoneNumber> list) {
-        mRecyclerView.swapAdapter(new MyPhoneRecyclerViewAdapter(list), false);
+    public void showMails(List<Mail> mails) {
+        mRecyclerView.swapAdapter(new MyMailRecyclerViewAdapter(mails), false);
     }
 
     @Override
-    public void showPhoneDialog(PhoneNumber phoneNumber) {
-        AddPhoneDialog addPhoneDialog = new AddPhoneDialog(getContext(),phoneNumber,phonePresenter);
-        addPhoneDialog.show();
+    public void showMailDialog(Mail mail) {
+        AddMailDialog addMailDialog = new AddMailDialog(getContext(),mail,mailPresenter);
+        addMailDialog.show();
     }
 
     @Override
     protected String getFragmentName() {
-        return getResources().getString(R.string.fragment_phone_name);
+        return getResources().getString(R.string.fragment_mail_name);
     }
+
 }

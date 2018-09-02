@@ -2,6 +2,7 @@ package com.waymaps.data;
 
 import com.waymaps.contract.Callbacks;
 import com.waymaps.data.local.db.AppLocalDataSource;
+import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
 import com.waymaps.data.remote.AppNetworkDataSource;
 import com.waymaps.util.AppExecutors;
@@ -61,6 +62,23 @@ public class AppRepository {
     public void editPhone(Callbacks.Phones.EditPhoneCallback callback, PhoneNumber phoneNumber) {
         mAppLocalDataSource.updatePhone(callback, phoneNumber);
     }
+
+    public void getAllMails(Callbacks.Mails.LoadMailsCallback loadMailsCallback) {
+        mAppLocalDataSource.getAllMails(loadMailsCallback);
+    }
+
+    public void addMails(Callbacks.Mails.AddMailCallback callback, Mail... mails) {
+        mAppLocalDataSource.addMail(callback, mails);
+    }
+
+    public void deleteMail(Callbacks.Mails.DeleteMailCallback callback, String mail) {
+        mAppLocalDataSource.deleteMail(callback, mail);
+    }
+
+    public void editMail(Callbacks.Mails.EditMailCallback callback, Mail mail) {
+        mAppLocalDataSource.updateMail(callback, mail);
+    }
+
 
 
 }

@@ -18,6 +18,11 @@ public class PhoneNumber {
         this.phoneNo = phoneNo;
     }
 
+    @Ignore
+    public PhoneNumber(){
+
+    }
+
     public PhoneNumber(int id, String phoneNo) {
         this.id = id;
         this.phoneNo = phoneNo;
