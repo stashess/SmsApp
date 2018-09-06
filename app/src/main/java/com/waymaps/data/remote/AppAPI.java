@@ -1,5 +1,9 @@
 package com.waymaps.data.remote;
 
+import android.content.Context;
+
+import com.waymaps.util.AppExecutors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,4 +34,7 @@ public class AppAPI {
         wayMapService = retrofit.create(WayMapService.class);
     }
 
+    public static WayMapService getWayMapService() {
+        return wayMapService;
+    }
 }

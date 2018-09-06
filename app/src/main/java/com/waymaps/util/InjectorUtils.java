@@ -7,6 +7,7 @@ import com.waymaps.data.AppRepository;
 import com.waymaps.data.local.db.AppDatabase;
 import com.waymaps.data.local.db.AppLocalDataSource;
 import com.waymaps.data.remote.AppNetworkDataSource;
+import com.waymaps.data.remote.GmailListener;
 
 public class InjectorUtils {
 
@@ -19,7 +20,8 @@ public class InjectorUtils {
 
     public static AppNetworkDataSource provideNetworkDataSource(Context context) {
         AppExecutors executors = AppExecutors.getInstance();
-        return AppNetworkDataSource.getInstance(context.getApplicationContext(), executors);
+        Context applicationContext = context.getApplicationContext();
+        return AppNetworkDataSource.getInstance(applicationContext, executors, GmailListener.getInstance(applicationContext));
     }
 
     public static AppLocalDataSource provideLocalDataSource(Context context) {

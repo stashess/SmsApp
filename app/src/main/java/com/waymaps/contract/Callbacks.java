@@ -5,6 +5,8 @@ import com.waymaps.data.model.PhoneNumber;
 
 import java.util.List;
 
+import javax.mail.Message;
+
 public interface Callbacks {
     interface Phones {
         interface LoadPhonesCallback {
@@ -58,5 +60,16 @@ public interface Callbacks {
         }
     }
 
+    interface Gmail {
+        interface GmailCallGet {
+            void onSuccess(Message[] messages);
+
+            void onFail();
+        }
+
+        interface GmailCallCheckConnection {
+            void onSuccess(String s);
+        }
+    }
 
 }

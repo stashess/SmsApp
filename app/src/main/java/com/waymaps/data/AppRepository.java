@@ -79,6 +79,14 @@ public class AppRepository {
         mAppLocalDataSource.updateMail(callback, mail);
     }
 
+    public void getEmails(Callbacks.Gmail.GmailCallGet callback, Mail mail) {
+        mAppNetworkDataSource.getMails(callback, mail);
+    }
+
+    public void checkConnection(Callbacks.Gmail.GmailCallCheckConnection callback, Mail mail) {
+        mAppNetworkDataSource.checkConnection(callback, mail);
+    }
+
 
 
 }

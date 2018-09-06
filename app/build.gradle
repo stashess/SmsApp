@@ -43,5 +43,6 @@ dependencies {
     annotationProcessor "android.arch.lifecycle:compiler:$arch_version"
     implementation "android.arch.persistence.room:runtime:$arch_version"
     annotationProcessor "android.arch.persistence.room:compiler:$arch_version"
+    implementation group: 'javax.mail', name: 'mail', version: '1.4.1'
 
 }

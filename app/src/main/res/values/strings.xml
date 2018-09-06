@@ -19,4 +19,5 @@
     <string name="toast_mail_empty">Mail can\'t be empty</string>
     <string name="toast_pass_empty">Password can\'t be empty</string>
     <string name="button_check_pass">Check password</string>
+    <string name="connection_successful">Connection successful</string>
 </resources>
