@@ -23,22 +23,22 @@ public class AppNetworkDataSource {
     private final Context mContext;
 
     private final AppExecutors mExecutors;
-    private final GmailListener mGmailListener;
+    private final MailListener mMailListener;
 
-    private AppNetworkDataSource(Context context, AppExecutors executors, GmailListener gmailListener) {
+    private AppNetworkDataSource(Context context, AppExecutors executors, MailListener mailListener) {
         mContext = context;
         mExecutors = executors;
-        mGmailListener = gmailListener;
+        mMailListener = mailListener;
     }
 
     /**
      * Get the singleton for this class
      */
-    public static AppNetworkDataSource getInstance(Context context, AppExecutors executors, GmailListener gmailListener) {
+    public static AppNetworkDataSource getInstance(Context context, AppExecutors executors, MailListener mailListener) {
         LOGGER.debug(LOG_TAG, "Getting the network data source");
         if (sInstance == null) {
             synchronized (LOCK) {
-                sInstance = new AppNetworkDataSource(context.getApplicationContext(), executors, gmailListener);
+                sInstance = new AppNetworkDataSource(context.getApplicationContext(), executors, mailListener);
                 LOGGER.debug(LOG_TAG, "Made new network data source");
             }
         }
@@ -50,7 +50,7 @@ public class AppNetworkDataSource {
             @Override
             public void run() {
                 try {
-                    final Message[] newGmails = mGmailListener.getNewGmails(mail);
+                    final Message[] newGmails = mMailListener.getNewMessages(mail);
 
                     mExecutors.mainThread().execute(new Runnable() {
                         @Override
@@ -76,7 +76,7 @@ public class AppNetworkDataSource {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                final String s = mGmailListener.checkConnection(mail);
+                final String s = mMailListener.checkConnection(mail);
 
                 mExecutors.mainThread().execute(new Runnable() {
                     @Override
