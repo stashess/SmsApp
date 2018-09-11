@@ -1,9 +1,14 @@
 package com.waymaps.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -31,6 +36,7 @@ import ru.terrakok.cicerone.android.SupportFragmentNavigator;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int SMS_PERMISSION_CODE = 0;
 
     private Navigator navigator = new SupportFragmentNavigator(getSupportFragmentManager(),
             R.id.content_main) {
@@ -63,6 +69,9 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         MainApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        if (!isSmsPermissionGranted()){
+            requestReadAndSendSmsPermission();
+        }
     }
 
     @Override
@@ -97,6 +106,8 @@ public class MainActivity extends AppCompatActivity
 
         MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_MAIN);
     }
+
+
 
     @Override
     public void onBackPressed() {
@@ -152,6 +163,14 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private boolean isSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestReadAndSendSmsPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS},SMS_PERMISSION_CODE );
     }
 
     public DrawerLayout getDrawer() {
