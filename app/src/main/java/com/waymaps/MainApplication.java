@@ -2,6 +2,10 @@ package com.waymaps;
 
 import android.app.Application;
 
+import com.waymaps.data.AppRepository;
+import com.waymaps.data.local.pref.LocalPreferenceManager;
+import com.waymaps.util.InjectorUtils;
+
 import ru.terrakok.cicerone.Cicerone;
 import ru.terrakok.cicerone.NavigatorHolder;
 import ru.terrakok.cicerone.Router;
@@ -23,5 +27,10 @@ public class MainApplication extends Application {
 
     public Router getRouter() {
         return cicerone.getRouter();
+    }
+
+    private void setDefaultSettings(){
+        AppRepository appRepository = InjectorUtils.provideRepository(this);
+        appRepository.setDefaultServiceStatus();
     }
 }

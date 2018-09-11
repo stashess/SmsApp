@@ -105,6 +105,4 @@ public class GmailListener {
         inbox.open(Folder.READ_ONLY);
         return inbox;
     }
-
-
 }
