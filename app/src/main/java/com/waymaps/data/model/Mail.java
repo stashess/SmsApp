@@ -19,13 +19,16 @@ public class Mail {
 
     private Date lastCheckDate;
 
+    private int mainEmail;
+
     private int status;
 
-    public Mail(int id, String mail, String password, Date lastCheckDate, int status) {
+    public Mail(int id, String mail, String password, Date lastCheckDate, int mainEmail, int status) {
         this.id = id;
         this.mail = mail;
         this.password = password;
         this.lastCheckDate = lastCheckDate;
+        this.mainEmail = mainEmail;
         this.status = status;
     }
 
@@ -34,13 +37,21 @@ public class Mail {
     }
 
     @Ignore
-    public Mail(String mail, String password, Date lastCheckDate, int status) {
+    public Mail(String mail, String password, Date lastCheckDate, int mainEmail, int status) {
         this.mail = mail;
         this.password = password;
         this.lastCheckDate = lastCheckDate;
+        this.mainEmail = mainEmail;
         this.status = status;
     }
 
+    public int getMainEmail() {
+        return mainEmail;
+    }
+
+    public void setMainEmail(int mainEmail) {
+        this.mainEmail = mainEmail;
+    }
 
     public int getId() {
         return id;
@@ -82,7 +93,7 @@ public class Mail {
         this.status = status;
     }
 
-    public interface Statusses{
+    public interface Statuses{
         int NOT_CHECKED = 0;
         int VERIFIED = 1;
         int FAILED = 2;

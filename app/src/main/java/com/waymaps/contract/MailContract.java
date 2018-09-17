@@ -12,6 +12,8 @@ public interface MailContract {
 
         void showMailDialog(Mail mail);
 
+        void showToast(String s);
+
     }
 
     interface MailPresenter{
@@ -26,5 +28,7 @@ public interface MailContract {
         void addMailButton();
 
         void editMailButton(Mail mail);
+
+        void checkConnection(Callbacks.MailConnection.MailConnectionCallCheckConnection callback,Mail mail);
     }
 }

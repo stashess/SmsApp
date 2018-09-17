@@ -9,7 +9,7 @@ public class ToastUtil {
         Toast toast = Toast.makeText(context,
                 text,
                 toastDuration);
-        toast.setGravity(Gravity.CENTER, 0, 0);
+        toast.setGravity(Gravity.CENTER, 0, 50);
         return toast;
     }
 }

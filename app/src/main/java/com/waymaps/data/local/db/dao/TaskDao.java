@@ -19,8 +19,8 @@ public interface TaskDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void bulkInsert(Task... taskHistories);
 
-    @Query("DELETE FROM tasks WHERE status = 1")
-    void deleteAllTaskWithStatusDone();
+    @Query("DELETE FROM tasks WHERE status = :status")
+    void deleteAllTaskByStatus(int status);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void ediTask(Task task);

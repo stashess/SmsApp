@@ -5,6 +5,7 @@ import com.waymaps.data.local.db.AppLocalDataSource;
 import com.waymaps.data.local.pref.LocalPreferenceDataSource;
 import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.data.model.Task;
 import com.waymaps.data.remote.AppNetworkDataSource;
 import com.waymaps.util.AppExecutors;
 
@@ -84,11 +85,11 @@ public class AppRepository {
         mAppLocalDataSource.updateMail(callback, mail);
     }
 
-    public void getEmails(Callbacks.Gmail.GmailCallGet callback, Mail mail) {
+    public void getEmails(Callbacks.MailConnection.MailConnectionCallGet callback, Mail mail) {
         mAppNetworkDataSource.getMails(callback, mail);
     }
 
-    public void checkConnection(Callbacks.Gmail.GmailCallCheckConnection callback, Mail mail) {
+    public void checkConnection(Callbacks.MailConnection.MailConnectionCallCheckConnection callback, Mail mail) {
         mAppNetworkDataSource.checkConnection(callback, mail);
     }
 
@@ -103,6 +104,23 @@ public class AppRepository {
     public void setDefaultServiceStatus(){
         mLocalPreferenceDataSource.setDefaultServiceStatus();
     }
+
+    public void getAllTask(Callbacks.Tasks.LoadTasksCallback callback) {
+        mAppLocalDataSource.getAllTasks(callback);
+    }
+
+    public void addTasks(Callbacks.Tasks.AddTaskCallback callback, Task... tasks) {
+        mAppLocalDataSource.addTask(callback, tasks);
+    }
+
+    public void deleteDoneTasks(Callbacks.Tasks.DeleteTaskCallback callback) {
+        mAppLocalDataSource.deleteAllTasksWithStatus(callback, Task.Statuses.SUCCESS);
+    }
+
+    public void editTask(Callbacks.Tasks.EditTaskCallback callback, Task task) {
+        mAppLocalDataSource.updateTask(callback, task);
+    }
+
 
 
 

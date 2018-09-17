@@ -5,6 +5,7 @@ import android.content.Context;
 import com.waymaps.contract.Callbacks;
 import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.data.model.Task;
 import com.waymaps.util.AppExecutors;
 
 import org.slf4j.Logger;
@@ -218,6 +219,103 @@ public class AppLocalDataSource {
             public void run() {
                 try {
                     mAppDatabase.mailDao().deleteByMail(mail);
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess();
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+    public void getAllTasks(final Callbacks.Tasks.LoadTasksCallback callback) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                final List<Task> tasks = mAppDatabase.taskDao().getTaskHistory();
+
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (!tasks.isEmpty()) {
+                            callback.onTasksLoaded(tasks);
+                        } else {
+                            callback.onDataNotAvailable();
+                        }
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+    public void addTask(final Callbacks.Tasks.AddTaskCallback callback, final Task... tasks) {
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.taskDao().bulkInsert(tasks);
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onSuccess();
+                        }
+                    });
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+    public void updateTask(final Callbacks.Tasks.EditTaskCallback callback, final Task task){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.taskDao().ediTask(task);
+                } catch (Exception e) {
+                    mExecutors.mainThread().execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            callback.onError();
+                        }
+                    });
+                }
+                mExecutors.mainThread().execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        callback.onSuccess();
+                    }
+                });
+            }
+        };
+        mExecutors.diskIO().execute(runnable);
+    }
+
+
+    public void deleteAllTasksWithStatus(final Callbacks.Tasks.DeleteTaskCallback callback, final int status){
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    mAppDatabase.taskDao().deleteAllTaskByStatus(status);
                 } catch (Exception e) {
                     mExecutors.mainThread().execute(new Runnable() {
                         @Override
