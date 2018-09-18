@@ -84,6 +84,17 @@ public class MailPresenter implements MailContract.MailPresenter {
     }
 
     @Override
+    public void checkConnection(final Callbacks.MailConnection.MailConnectionCallCheckConnection callback, Mail mail) {
+        appRepository.checkConnection(new Callbacks.MailConnection.MailConnectionCallCheckConnection() {
+            @Override
+            public void onSuccess(String s) {
+                callback.onSuccess(s);
+                mailView.showToast(s);
+            }
+        },mail);
+    }
+
+    @Override
     public void addMailButton() {
 
     }

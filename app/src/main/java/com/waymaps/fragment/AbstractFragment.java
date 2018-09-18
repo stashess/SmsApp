@@ -22,8 +22,6 @@ public abstract class AbstractFragment extends Fragment {
 
     protected Object data;
 
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -105,6 +103,8 @@ public abstract class AbstractFragment extends Fragment {
         String SCREEN_MAIN = "SCREEN_MAIN";
         String SCREEN_PHONE = "SCREEN_PHONE";
         String SCREEN_MAIL = "SCREEN_MAIL";
+        String SCREEN_TASK = "SCREEN_TASK";
+        String SCREEN_HOME = "SCREEN_HOME";
     }
 
     public Object getData() {

@@ -1,7 +1,17 @@
 package com.waymaps.data.remote;
 
 public class APIUtil {
-    public static final String URL = "http://mob.waymaps.com/wm_mob_data.php/";
+    public static final String URL = "https://mob.waymaps.com/wm_mob_data.php/";
 
     public static final String DEFAULT_FORMAT = "json";
+
+
+    public interface Action {
+        String CALL = "call";
+    }
+
+    public interface Name {
+        String SMS_SEND = "sms_send";
+    }
+
 }

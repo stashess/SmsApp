@@ -6,6 +6,7 @@ import android.content.Context;
 import com.waymaps.data.AppRepository;
 import com.waymaps.data.local.db.AppDatabase;
 import com.waymaps.data.local.db.AppLocalDataSource;
+import com.waymaps.data.local.pref.LocalPreferenceDataSource;
 import com.waymaps.data.remote.AppNetworkDataSource;
 import com.waymaps.data.remote.MailListener;
 import com.waymaps.data.remote.MailChecker;
@@ -16,7 +17,8 @@ public class InjectorUtils {
         AppExecutors executors = AppExecutors.getInstance();
         AppNetworkDataSource networkDataSource = provideNetworkDataSource(context);
         AppLocalDataSource localDataSource = provideLocalDataSource(context);
-        return AppRepository.getInstance(networkDataSource,localDataSource, executors);
+        LocalPreferenceDataSource localPreferenceDataSource = LocalPreferenceDataSource.getInstance(context);
+        return AppRepository.getInstance(networkDataSource,localDataSource,localPreferenceDataSource, executors);
     }
 
     public static AppNetworkDataSource provideNetworkDataSource(Context context) {

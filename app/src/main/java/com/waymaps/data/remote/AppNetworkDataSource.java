@@ -45,7 +45,7 @@ public class AppNetworkDataSource {
         return sInstance;
     }
 
-    public void getMails(final Callbacks.Gmail.GmailCallGet callback, final Mail mail) {
+    public void getMails(final Callbacks.MailConnection.MailConnectionCallGet callback, final Mail mail) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -72,7 +72,7 @@ public class AppNetworkDataSource {
         mExecutors.networkIO().execute(runnable);
     }
 
-    public void checkConnection(final Callbacks.Gmail.GmailCallCheckConnection callback, final Mail mail) {
+    public void checkConnection(final Callbacks.MailConnection.MailConnectionCallCheckConnection callback, final Mail mail) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

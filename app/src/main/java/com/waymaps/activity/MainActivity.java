@@ -1,11 +1,12 @@
 package com.waymaps.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,32 +18,39 @@ import android.widget.Toast;
 
 import com.waymaps.MainApplication;
 import com.waymaps.app.R;
-import com.waymaps.data.model.Mail;
+import com.waymaps.data.model.Task;
 import com.waymaps.fragment.AbstractFragment;
 import com.waymaps.fragment.MailFragment;
 import com.waymaps.fragment.MainFragment;
 import com.waymaps.fragment.PhoneFragment;
+import com.waymaps.fragment.TaskFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import ru.terrakok.cicerone.Navigator;
 import ru.terrakok.cicerone.android.SupportFragmentNavigator;
+import ru.terrakok.cicerone.commands.Command;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static final int SMS_PERMISSION_CODE = 0;
 
     private Navigator navigator = new SupportFragmentNavigator(getSupportFragmentManager(),
             R.id.content_main) {
         @Override
         protected Fragment createFragment(String screenKey, Object data) {
-            switch(screenKey) {
+            switch (screenKey) {
                 case AbstractFragment.FragmentName.SCREEN_MAIN:
-                    return AbstractFragment.getNewInstance(MainFragment.class,data);
+                    return AbstractFragment.getNewInstance(MainFragment.class, data);
                 case AbstractFragment.FragmentName.SCREEN_PHONE:
-                    return AbstractFragment.getNewInstance(PhoneFragment.class,data);
+                    return AbstractFragment.getNewInstance(PhoneFragment.class, data);
                 case AbstractFragment.FragmentName.SCREEN_MAIL:
-                    return AbstractFragment.getNewInstance(MailFragment.class,data);
+                    return AbstractFragment.getNewInstance(MailFragment.class, data);
+                case AbstractFragment.FragmentName.SCREEN_TASK:
+                    return AbstractFragment.getNewInstance(TaskFragment.class, data);
+                case AbstractFragment.FragmentName.SCREEN_HOME:
+                    return AbstractFragment.getNewInstance(MainFragment.class, data);
                 default:
                     throw new RuntimeException("Unknown screen key!");
             }
@@ -63,6 +71,9 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         MainApplication.INSTANCE.getNavigatorHolder().setNavigator(navigator);
+        if (!isSmsPermissionGranted()) {
+            requestReadAndSendSmsPermission();
+        }
     }
 
     @Override
@@ -95,12 +106,13 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_MAIN);
+        MainApplication.INSTANCE.getRouter().newRootScreen(AbstractFragment.FragmentName.SCREEN_HOME);
     }
+
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -108,13 +120,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
+*/
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -140,18 +152,22 @@ public class MainActivity extends AppCompatActivity
             MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_MAIL);
         } else if (id == R.id.nav_phone) {
             MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_PHONE);
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        } else if (id == R.id.nav_task) {
+            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_TASK);
+        } else if (id == R.id.nav_home) {
+            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_HOME);
         }
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private boolean isSmsPermissionGranted() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestReadAndSendSmsPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
     }
 
     public DrawerLayout getDrawer() {

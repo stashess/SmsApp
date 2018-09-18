@@ -2,6 +2,7 @@ package com.waymaps.contract;
 
 import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.data.model.Task;
 
 import java.util.List;
 
@@ -60,15 +61,41 @@ public interface Callbacks {
         }
     }
 
-    interface Gmail {
-        interface GmailCallGet {
+    interface MailConnection {
+        interface MailConnectionCallGet {
             void onSuccess(Message[] messages);
 
             void onFail();
         }
 
-        interface GmailCallCheckConnection {
+        interface MailConnectionCallCheckConnection {
             void onSuccess(String s);
+        }
+    }
+
+    interface Tasks{
+        interface LoadTasksCallback {
+            void onTasksLoaded(List<Task> task);
+
+            void onDataNotAvailable();
+        }
+
+        interface EditTaskCallback {
+            void onSuccess();
+
+            void onError();
+        }
+
+        interface AddTaskCallback {
+            void onSuccess();
+
+            void onError();
+        }
+
+        interface DeleteTaskCallback {
+            void onSuccess();
+
+            void onError();
         }
     }
 

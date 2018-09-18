@@ -1,22 +1,27 @@
 package com.waymaps.data.local.db;
 
+import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.TypeConverter;
 import android.arch.persistence.room.TypeConverters;
+import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.waymaps.data.Converters;
 import com.waymaps.data.local.db.dao.MailDao;
 import com.waymaps.data.local.db.dao.PhoneDao;
+import com.waymaps.data.local.db.dao.TaskDao;
 import com.waymaps.data.model.Mail;
 import com.waymaps.data.model.PhoneNumber;
+import com.waymaps.data.model.Task;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Database(entities = {PhoneNumber.class, Mail.class}, version = 2, exportSchema = false)
+@Database(entities = {PhoneNumber.class, Mail.class, Task.class}, version = 4, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -43,4 +48,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract PhoneDao phoneDao();
 
     public abstract MailDao mailDao();
+
+    public abstract TaskDao taskDao();
 }
