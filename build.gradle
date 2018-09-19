@@ -33,6 +33,7 @@ ext{
     cicerone_version = '1.0'
     arch_version = '1.1.1'
     mockito_version = '2.6.3'
+    job_version = '1.2.6'
 }
 
 task clean(type: Delete) {

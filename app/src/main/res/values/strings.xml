@@ -25,4 +25,6 @@
     <string name="main_mail">Mail tracked</string>
     <string name="regular_mail">Other mails</string>
     <string name="menu_home">Home</string>
+    <string name="main_fragment_service_stopped">Service stopped</string>
+    <string name="main_fragment_service_started">Service started</string>
 </resources>
