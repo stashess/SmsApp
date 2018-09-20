@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.evernote.android.job.JobManager;
 import com.waymaps.MainApplication;
 import com.waymaps.app.R;
 import com.waymaps.data.model.Task;
@@ -24,6 +25,7 @@ import com.waymaps.fragment.MailFragment;
 import com.waymaps.fragment.MainFragment;
 import com.waymaps.fragment.PhoneFragment;
 import com.waymaps.fragment.TaskFragment;
+import com.waymaps.jobscheduler.SMSAppJobCreator;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -97,7 +99,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
         navigationView.setNavigationItemSelectedListener(this);
         setSupportActionBar(toolbar);
 

@@ -33,6 +33,12 @@ public class SMSService extends Service {
         registerReceiver(smsReceiver,filter);
     }
 
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return super.onStartCommand(intent, flags, startId);
+    }
+
     @Override
     public void onDestroy() {
         unregisterReceiver(smsReceiver);
@@ -40,7 +46,7 @@ public class SMSService extends Service {
     }
 
     public void processIncomingSMS(String sender,String text){
-        //mock
+        System.out.println(sender + " " +text);
     }
 
     public void processIncomingGmail(){

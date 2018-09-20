@@ -1,5 +1,8 @@
 package com.waymaps.contract;
 
+import android.content.Context;
+import android.content.Intent;
+
 /**
  * Created by StanislavCheslavskyi on 19.09.2018.
  */
@@ -7,6 +10,12 @@ package com.waymaps.contract;
 public interface MainContract {
     interface MainView{
         void showServiceStatus(boolean state);
+
+        Context getContext();
+
+        void startService(Intent intent);
+
+        void stopService(Intent intent);
     }
 
 

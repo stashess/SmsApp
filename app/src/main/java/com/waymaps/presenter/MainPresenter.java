@@ -1,9 +1,12 @@
 package com.waymaps.presenter;
 
+import android.content.Intent;
+
 import com.evernote.android.job.JobManager;
 import com.waymaps.contract.MainContract;
 import com.waymaps.data.AppRepository;
 import com.waymaps.jobscheduler.job.MailJob;
+import com.waymaps.service.SMSService;
 
 /**
  * Created by StanislavCheslavskyi on 19.09.2018.
@@ -40,10 +43,13 @@ public class MainPresenter implements MainContract.MainPresenter {
 
     private void startServices(){
         MailJob.scheduleJob();
+        Intent intent = new Intent(mainView.getContext(),SMSService.class);
+        mainView.startService(intent);
     }
 
     private void stopServices(){
         JobManager.instance().cancelAll();
-        MailJob.handler.removeCallbacksAndMessages(null);
+        Intent intent = new Intent(mainView.getContext(),SMSService.class);
+        mainView.stopService(intent);
     }
 }

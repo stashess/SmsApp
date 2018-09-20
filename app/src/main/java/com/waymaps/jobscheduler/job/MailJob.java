@@ -1,13 +1,19 @@
 package com.waymaps.jobscheduler.job;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
+import com.evernote.android.job.util.support.PersistableBundleCompat;
+import com.waymaps.data.AppRepository;
 import com.waymaps.util.AppExecutors;
+import com.waymaps.util.InjectorUtils;
+import com.waymaps.util.ToastUtil;
 
 import java.util.Date;
 import java.util.Set;
@@ -22,29 +28,36 @@ public class MailJob extends Job{
 
     public static final String TAG = "MAIL_JOB";
 
-    public static Handler handler;
+    private AppRepository appRepository;
+
+    public MailJob() {
+    }
 
     @NonNull
     @Override
     protected Result onRunJob(@NonNull Params params) {
+        appRepository = InjectorUtils.provideRepository(getContext());
+
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
             @Override
             public void run() {
                 final Handler handler = new Handler();
-                MailJob.this.handler = handler;
                 final int delay = 10000;
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        System.out.println(new Date().getTime());
-                        handler.postDelayed(this,delay);
+                        if ("1".equals(appRepository.getServiceStatus())){
+                            System.out.println(handler.hashCode());;
+                            handler.postDelayed(this,delay);
+                        } else {
+                         handler.removeCallbacksAndMessages(null);
+                        }
                     }
                 },delay);
             }
         });
 
-
-        return Result.RESCHEDULE;
+        return Result.SUCCESS;
     }
 
     public static void scheduleJob() {
@@ -52,6 +65,7 @@ public class MailJob extends Job{
         if (!jobRequests.isEmpty()) {
             return;
         }
+
         new JobRequest.Builder(MailJob.TAG)
                 .setPeriodic(TimeUnit.MINUTES.toMillis(15))
                 .setUpdateCurrent(true)

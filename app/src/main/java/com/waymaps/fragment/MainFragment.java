@@ -1,5 +1,6 @@
 package com.waymaps.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,6 +63,16 @@ public class MainFragment extends AbstractFragment implements MainContract.MainV
     public void showServiceStatus(boolean state) {
         aSwitch.setChecked(state);
         changeSwitchText(state);
+    }
+
+    @Override
+    public void startService(Intent intent) {
+        getActivity().startService(intent);
+    }
+
+    @Override
+    public void stopService(Intent intent) {
+        getActivity().stopService(intent);
     }
 
     private void changeSwitchText(boolean currentState){
