@@ -78,4 +78,5 @@ public class MainFragment extends AbstractFragment implements MainContract.MainV
     private void changeSwitchText(boolean currentState){
         aSwitch.setText(currentState?getString(R.string.main_fragment_service_started):getString(R.string.main_fragment_service_stopped));
     }
+
 }

@@ -21,7 +21,7 @@ import com.waymaps.data.model.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@Database(entities = {PhoneNumber.class, Mail.class, Task.class}, version = 4, exportSchema = false)
+@Database(entities = {PhoneNumber.class, Mail.class, Task.class}, version = 5, exportSchema = false)
 @TypeConverters(Converters.class)
 public abstract class AppDatabase extends RoomDatabase {
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();

@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.evernote.android.job.Job;
 import com.evernote.android.job.JobCreator;
 import com.waymaps.jobscheduler.job.MailJob;
+import com.waymaps.jobscheduler.job.NotificationJob;
 import com.waymaps.jobscheduler.job.SMSJob;
 import com.waymaps.jobscheduler.job.ServerJob;
 
@@ -21,6 +22,7 @@ public class SMSAppJobCreator implements JobCreator {
             case MailJob.TAG: return new MailJob();
             case SMSJob.TAG: return new SMSJob();
             case ServerJob.TAG: return new ServerJob();
+            case NotificationJob.TAG: return new NotificationJob();
             default: return null;
         }
     }

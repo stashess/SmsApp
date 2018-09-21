@@ -1,8 +1,12 @@
 package com.waymaps.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Telephony;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -14,6 +18,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.evernote.android.job.JobManager;
@@ -69,6 +75,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onResume() {
         super.onResume();
@@ -76,6 +83,14 @@ public class MainActivity extends AppCompatActivity
         if (!isSmsPermissionGranted()) {
             requestReadAndSendSmsPermission();
         }
+/*        final String myPackageName = getPackageName();
+        if (!Telephony.Sms.getDefaultSmsPackage(this).equals(myPackageName)) {
+            Intent intent =
+                    new Intent(Telephony.Sms.Intents.ACTION_CHANGE_DEFAULT);
+            intent.putExtra(Telephony.Sms.Intents.EXTRA_PACKAGE_NAME,
+                    myPackageName);
+            startActivity(intent);
+        }*/
     }
 
     @Override
@@ -94,6 +109,7 @@ public class MainActivity extends AppCompatActivity
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,6 +136,7 @@ public class MainActivity extends AppCompatActivity
             super.onBackPressed();
         }
     }
+
 
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,13 +167,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_mail) {
-            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_MAIL);
+            MainApplication.INSTANCE.getRouter().replaceScreen(AbstractFragment.FragmentName.SCREEN_MAIL);
         } else if (id == R.id.nav_phone) {
-            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_PHONE);
+            MainApplication.INSTANCE.getRouter().replaceScreen(AbstractFragment.FragmentName.SCREEN_PHONE);
         } else if (id == R.id.nav_task) {
-            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_TASK);
+            MainApplication.INSTANCE.getRouter().replaceScreen(AbstractFragment.FragmentName.SCREEN_TASK);
         } else if (id == R.id.nav_home) {
-            MainApplication.INSTANCE.getRouter().navigateTo(AbstractFragment.FragmentName.SCREEN_HOME);
+            MainApplication.INSTANCE.getRouter().replaceScreen(AbstractFragment.FragmentName.SCREEN_HOME);
         }
 
         drawer.closeDrawer(GravityCompat.START);

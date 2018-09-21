@@ -21,6 +21,8 @@ public class Task {
 
     private String receiver;
 
+    private String sender;
+
     private Date receivedDate;
 
     private Date lastTryDate;
@@ -29,12 +31,13 @@ public class Task {
     public Task() {
     }
 
-    public Task(int id, int status, int type, String text, String receiver, Date receivedDate, Date lastTryDate) {
+    public Task(int id, int status, int type, String text, String receiver, String sender, Date receivedDate, Date lastTryDate) {
         this.id = id;
         this.status = status;
         this.type = type;
         this.text = text;
         this.receiver = receiver;
+        this.sender = sender;
         this.receivedDate = receivedDate;
         this.lastTryDate = lastTryDate;
     }
@@ -46,7 +49,7 @@ public class Task {
         int WAITING_FOR_RESPONSE = 2;
     }
 
-    private interface Types{
+    public interface Types{
         int PHONE_TO_MAIL = 0;
         int MAIL_TO_PHONE = 1;
         int SERVER_TO_PHONE = 2;
@@ -106,5 +109,13 @@ public class Task {
 
     public void setLastTryDate(Date lastTryDate) {
         this.lastTryDate = lastTryDate;
+    }
+
+    public String getSender() {
+        return sender;
+    }
+
+    public void setSender(String sender) {
+        this.sender = sender;
     }
 }

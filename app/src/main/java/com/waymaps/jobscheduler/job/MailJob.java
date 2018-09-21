@@ -1,5 +1,6 @@
 package com.waymaps.jobscheduler.job;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -11,6 +12,7 @@ import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.evernote.android.job.util.support.PersistableBundleCompat;
 import com.waymaps.data.AppRepository;
+import com.waymaps.jobscheduler.util.JobHandler;
 import com.waymaps.util.AppExecutors;
 import com.waymaps.util.InjectorUtils;
 import com.waymaps.util.ToastUtil;
@@ -37,17 +39,17 @@ public class MailJob extends Job{
     @Override
     protected Result onRunJob(@NonNull Params params) {
         appRepository = InjectorUtils.provideRepository(getContext());
-
         AppExecutors.getInstance().mainThread().execute(new Runnable() {
             @Override
             public void run() {
+                final int delay = 3000;
                 final Handler handler = new Handler();
-                final int delay = 10000;
+                JobHandler.getInstance().addTaskWithTag(TAG,handler);
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if ("1".equals(appRepository.getServiceStatus())){
-                            System.out.println(handler.hashCode());;
+                            System.out.println(TAG + " " + handler.hashCode());;
                             handler.postDelayed(this,delay);
                         } else {
                          handler.removeCallbacksAndMessages(null);
@@ -67,10 +69,11 @@ public class MailJob extends Job{
         }
 
         new JobRequest.Builder(MailJob.TAG)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
-                .setUpdateCurrent(true)
-                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setRequirementsEnforced(true)
+                //.setPeriodic(TimeUnit.MINUTES.toMillis(15))
+                .startNow()
+                //.setUpdateCurrent(true)
+                //.setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
+                //.setRequirementsEnforced(true)
                 .build()
                 .schedule();
     }

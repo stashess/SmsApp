@@ -7,6 +7,7 @@ import com.evernote.android.job.Job;
 import com.evernote.android.job.JobManager;
 import com.evernote.android.job.JobRequest;
 import com.waymaps.data.AppRepository;
+import com.waymaps.jobscheduler.util.JobHandler;
 import com.waymaps.util.AppExecutors;
 import com.waymaps.util.InjectorUtils;
 
@@ -31,12 +32,13 @@ public class ServerJob extends Job{
             @Override
             public void run() {
                 final Handler handler = new Handler();
-                final int delay = 10000;
+                JobHandler.getInstance().addTaskWithTag(TAG,handler);
+                final int delay = 3000;
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         if ("1".equals(appRepository.getServiceStatus())){
-                            System.out.println(handler.hashCode());;
+                            System.out.println(TAG + " " + handler.hashCode());;
                             handler.postDelayed(this,delay);
                         } else {
                             handler.removeCallbacksAndMessages(null);
@@ -50,16 +52,13 @@ public class ServerJob extends Job{
     }
 
     public static void scheduleJob() {
-        Set<JobRequest> jobRequests = JobManager.instance().getAllJobRequestsForTag(MailJob.TAG);
+        Set<JobRequest> jobRequests = JobManager.instance().getAllJobRequestsForTag(ServerJob.TAG);
         if (!jobRequests.isEmpty()) {
             return;
         }
 
-        new JobRequest.Builder(MailJob.TAG)
-                .setPeriodic(TimeUnit.MINUTES.toMillis(15))
-                .setUpdateCurrent(true)
-                .setRequiredNetworkType(JobRequest.NetworkType.CONNECTED)
-                .setRequirementsEnforced(true)
+        new JobRequest.Builder(ServerJob.TAG)
+                .startNow()
                 .build()
                 .schedule();
     }
