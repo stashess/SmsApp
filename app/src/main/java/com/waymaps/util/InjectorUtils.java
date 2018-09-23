@@ -10,6 +10,7 @@ import com.waymaps.data.local.pref.LocalPreferenceDataSource;
 import com.waymaps.data.remote.AppNetworkDataSource;
 import com.waymaps.data.remote.MailListener;
 import com.waymaps.data.remote.MailChecker;
+import com.waymaps.data.remote.MailSender;
 
 public class InjectorUtils {
 
@@ -25,7 +26,8 @@ public class InjectorUtils {
         AppExecutors executors = AppExecutors.getInstance();
         Context applicationContext = context.getApplicationContext();
         MailChecker mailChecker = MailChecker.getInstance(context);
-        MailListener mailListener = MailListener.getInstance(context, mailChecker);
+        MailSender mailSender = MailSender.getInstance(context);
+        MailListener mailListener = MailListener.getInstance(context, mailChecker,mailSender);
         return AppNetworkDataSource.getInstance(applicationContext, executors, mailListener);
     }
 

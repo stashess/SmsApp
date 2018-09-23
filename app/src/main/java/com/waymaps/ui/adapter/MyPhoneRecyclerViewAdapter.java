@@ -43,7 +43,7 @@ public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+        final View mView;
 
         @BindView(R.id.item_number)
         TextView mIdView;
@@ -51,9 +51,9 @@ public class MyPhoneRecyclerViewAdapter extends RecyclerView.Adapter<MyPhoneRecy
         @BindView(R.id.item_content)
         TextView mContentView;
 
-        public PhoneNumber mItem;
+        PhoneNumber mItem;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
             ButterKnife.bind(this,view);

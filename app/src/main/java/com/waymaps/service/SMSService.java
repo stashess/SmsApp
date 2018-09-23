@@ -69,6 +69,7 @@ public class SMSService extends Service {
     public void processIncomingSMS(final String sender, final String text){
         Task task = new Task();
         task.setReceivedDate(new Date());
+        task.setLastTryDate(new Date());
         task.setSender(sender);
         task.setStatus(Task.Statuses.TO_PROCESS);
         task.setText(text);

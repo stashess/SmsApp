@@ -10,6 +10,7 @@ import com.waymaps.util.ProperiesHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Folder;
@@ -31,12 +32,13 @@ public class MailListener {
     private static MailListener sInstance;
     private final Context mContext;
     private final MailChecker mMailChecker;
+    private final MailSender mMailSender;
 
-    public static MailListener getInstance(Context context, MailChecker mailChecker) {
+    public static MailListener getInstance(Context context, MailChecker mailChecker, MailSender mailSender) {
         LOGGER.debug(LOG_TAG, "Getting the mail listener");
         if (sInstance == null) {
             synchronized (LOCK) {
-                sInstance = new MailListener(context.getApplicationContext(), mailChecker);
+                sInstance = new MailListener(context.getApplicationContext(), mailChecker, mailSender);
                 LOGGER.debug(LOG_TAG, "Made new mail listener");
             }
         }
@@ -48,6 +50,11 @@ public class MailListener {
         Properties properties = getPropertiesBasedOnMail(mail);
         Folder folder = getInboxFolder(mail, properties);
         return mMailChecker.getNewMails(folder,mail);
+    }
+
+    public void sendEmail(Mail from, List<Mail> to, String subject, String message){
+        Properties properties = getPropertiesBasedOnMail(from);
+
     }
 
     public String checkConnection(Mail mail) {
@@ -78,9 +85,10 @@ public class MailListener {
         }
     }
 
-    private MailListener(Context mContext, MailChecker mailChecker) {
+    private MailListener(Context mContext, MailChecker mailChecker, MailSender mailSender) {
         this.mContext = mContext;
         this.mMailChecker = mailChecker;
+        this.mMailSender = mailSender;
     }
 
 }

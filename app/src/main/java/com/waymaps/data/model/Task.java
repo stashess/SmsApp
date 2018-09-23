@@ -46,7 +46,7 @@ public class Task {
         int TO_PROCESS = 0;
         int SUCCESS = 1;
         int FAILED = 2;
-        int WAITING_FOR_RESPONSE = 2;
+        int WAITING_FOR_RESPONSE = 3;
     }
 
     public interface Types{

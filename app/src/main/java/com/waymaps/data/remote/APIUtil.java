@@ -12,6 +12,8 @@ public class APIUtil {
 
     public interface Name {
         String SMS_SEND = "sms_send";
+        String TRACKER_COMMAND_SEND = "tracker_command_send";
+        String TRACKER_COMMAND_RECEIVE = "tracker_command_receive";
     }
 
 }

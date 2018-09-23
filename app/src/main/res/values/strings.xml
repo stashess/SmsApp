@@ -28,4 +28,21 @@
     <string name="main_fragment_service_stopped">Service stopped</string>
     <string name="main_fragment_service_started">Service started</string>
     <string name="service_started">Service stared</string>
+    <string name="task_item_sender">Sender</string>
+    <string name="task_item_receiver">Reeiver</string>
+    <string name="task_item_status">Status</string>
+    <string name="task_item_type">Type</string>
+    <string name="task_item_message">Message</string>
+    <string name="task_item_creating_date">Creating date</string>
+    <string name="task_item_status_date">Status date</string>
+    <string name="phone_mail"><![CDATA[Phone -> Mail]]></string>
+    <string name="mail_phone"><![CDATA[Mail -> Phone]]></string>
+    <string name="server_phone"><![CDATA[Server -> Phone]]></string>
+    <string name="undefined">Undefined</string>
+    <string name="selected_mails">Selected mails</string>
+    <string name="server">Server</string>
+    <string name="status_not_processed">Not processed</string>
+    <string name="status_success">Success</string>
+    <string name="status_failed">Failed</string>
+    <string name="status_waiting_for_response">Waiting for response</string>
 </resources>
